@@ -3,6 +3,7 @@ import Progress from "./Progress";
 import TwoTweets from "./TwoTweets";
 
 import Checkmark from "./Checkmark";
+import Score from "./Score";
 
 const Game = () => {
     const [selectedTweet, setSelectedTweet] = useState<0 | 1 | 2>(0);
@@ -61,11 +62,13 @@ const Game = () => {
 
     const [level, setLevel] = useState(1);
     const [progress, setProgress] = useState(0);
+    const [score, setScore] = useState(0);
     const onDrop = useCallback((selected: 1 | 2) => {
+        setScore((oldScore) => oldScore + 100);
         setProgress((oldProg) => {
             let newProg = 0;
             setLevel((oldLevel) => {
-                newProg = oldProg + 1 / (2 ** (oldLevel + 1));
+                newProg = oldProg + 1 / 2 ** (oldLevel + 1);
                 // Float rounding...
                 if (newProg < 0.99999) return oldLevel;
                 return oldLevel + 1;
@@ -90,6 +93,7 @@ const Game = () => {
                 disabled={disabled}
             />
 
+            <Score score={score} />
             <TwoTweets
                 tweet1={{
                     user: {
