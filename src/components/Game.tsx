@@ -64,7 +64,6 @@ const Game = () => {
     const [progress, setProgress] = useState(0);
     const [score, setScore] = useState(0);
     const onDrop = useCallback((selected: 1 | 2) => {
-        setScore((oldScore) => oldScore + 100);
         setProgress((oldProg) => {
             let newProg = 0;
             setLevel((oldLevel) => {
@@ -76,6 +75,7 @@ const Game = () => {
             if (newProg < 0.99999) return newProg;
             return 0;
         });
+        setScore((oldScore) => oldScore + 100);
         setDisabled(true);
         setTimeout(() => {
             setDisabled(false);
