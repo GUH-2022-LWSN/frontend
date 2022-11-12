@@ -27,7 +27,7 @@ $heightSmall: 36px;
         top: 3px;
         height: calc(100% - 6px);
 
-        transition: 150ms width ease-in;
+        transition: 150ms width;
 
         background-color: $twitterBlue;
     }

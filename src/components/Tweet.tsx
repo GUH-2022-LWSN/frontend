@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { TweetInfo } from "../types/tweet";
 
 import styles from "./Tweet.module.scss";
@@ -41,7 +41,7 @@ const Tweet = ({
             ref={tweetRef}
             style={{
                 boxShadow: tweet.hover
-                    ? "5px 5px 50px -5px rgba(0,0,0,0.4)"
+                    ? "5px 5px 50px -1px rgba(0,0,0,0.4)"
                     : "5px 5px 10px -5px rgba(0,0,0,0.4)",
             }}
         >
@@ -95,4 +95,4 @@ const Tweet = ({
         </div>
     );
 };
-export default Tweet;
+export default memo(Tweet);

@@ -5,7 +5,9 @@ import CheckmarkSVG from "./CheckmarkSVG";
 
 interface CheckmarkProps {
     setSelected(selected: 0 | 1 | 2): void;
+    onDrop(selected: 1 | 2): void;
 
+    spaceRef: React.MutableRefObject<null | HTMLDivElement>;
     t1ClientRect: null | DOMRect;
     t2ClientRect: null | DOMRect;
 }
@@ -18,12 +20,15 @@ const intersectionAmount = (r1: DOMRect, r2: DOMRect): number => {
 };
 
 function Checkmark(props: CheckmarkProps) {
-    const { setSelected, t1ClientRect, t2ClientRect } = props;
+    const { setSelected, t1ClientRect, t2ClientRect, onDrop } = props;
 
     const checkmarkRef = useRef<SVGSVGElement | null>(null);
 
     const [pos, setPos] = useState({ left: 0.5, top: 0.5 });
+    const [dragging, setDragging] = useState<boolean>(false);
     const offsetRef = useRef({ left: 0, top: 0 });
+
+    const selectedRef = useRef<0 | 1 | 2>(0);
 
     useEffect(() => {
         const onMouseMove = (e: MouseEvent) => {
@@ -43,9 +48,16 @@ function Checkmark(props: CheckmarkProps) {
                 const t1I = intersectionAmount(t1ClientRect, checkmarkBox);
                 const t2I = intersectionAmount(t2ClientRect, checkmarkBox);
 
-                if (t1I === 0 && t2I === 0) setSelected(0);
-                else if (t1I > t2I) setSelected(1);
-                else setSelected(2);
+                if (t1I === 0 && t2I === 0) {
+                    selectedRef.current = 0;
+                    setSelected(0);
+                } else if (t1I > t2I) {
+                    selectedRef.current = 1;
+                    setSelected(1);
+                } else {
+                    selectedRef.current = 2;
+                    setSelected(2);
+                }
             }
 
             setPos({
@@ -64,13 +76,19 @@ function Checkmark(props: CheckmarkProps) {
                 const realCheckmarkBox =
                     checkmarkRef.current.getBoundingClientRect();
 
+                setDragging(true);
                 offsetRef.current.left = e.offsetX - realCheckmarkBox.width / 2;
                 offsetRef.current.top = e.offsetY - realCheckmarkBox.height / 2;
+                onMouseMove(e);
             }
         };
 
         const onMouseUp = (e: MouseEvent) => {
             document.removeEventListener("mousemove", onMouseMove);
+            setDragging(false);
+            if (selectedRef.current !== 0) onDrop(selectedRef.current);
+            selectedRef.current = 0;
+            setSelected(0);
         };
 
         document.addEventListener("mousedown", onMouseDown);
@@ -81,14 +99,29 @@ function Checkmark(props: CheckmarkProps) {
             document.removeEventListener("mouseup", onMouseUp);
             document.removeEventListener("mousemove", onMouseMove);
         };
-    }, [setSelected, t1ClientRect, t2ClientRect]);
+    }, [setSelected, t1ClientRect, t2ClientRect, onDrop]);
+
+    if (!props.spaceRef.current) return null;
+
+    let left: number = 0,
+        top: number = 0;
+    if (dragging) {
+        left = pos.left;
+        top = pos.top;
+    } else {
+        const spaceBox = props.spaceRef.current.getBoundingClientRect();
+        left = (spaceBox.left + spaceBox.width / 2) / window.innerWidth;
+        top = (spaceBox.top + spaceBox.height / 2) / window.innerHeight;
+    }
 
     return (
         <CheckmarkSVG
-            className={styles.checkmark}
+            className={
+                styles.checkmark + (dragging ? "" : " " + styles.goingHome)
+            }
             style={{
-                left: `${pos.left * 100}%`,
-                top: `${pos.top * 100}%`,
+                left: `${left * 100}%`,
+                top: `${top * 100}%`,
             }}
             ref={checkmarkRef}
         />

@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import styles from "./Progress.module.scss";
 
 const Progress = ({ level, progress }: { level: number, progress: number }) => {
@@ -10,4 +12,4 @@ const Progress = ({ level, progress }: { level: number, progress: number }) => {
         </div>
     );
 };
-export default Progress;
+export default memo(Progress);
