@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./Checkmark.module.scss";
 
+import CheckmarkSVG from "./CheckmarkSVG";
+
 interface CheckmarkProps {
     setSelected(selected: 0 | 1 | 2): void;
 
@@ -18,7 +20,7 @@ const intersectionAmount = (r1: DOMRect, r2: DOMRect): number => {
 function Checkmark(props: CheckmarkProps) {
     const { setSelected, t1ClientRect, t2ClientRect } = props;
 
-    const checkmarkRef = useRef<HTMLImageElement | null>(null);
+    const checkmarkRef = useRef<SVGSVGElement | null>(null);
 
     const [pos, setPos] = useState({ left: 0.5, top: 0.5 });
     const offsetRef = useRef({ left: 0, top: 0 });
@@ -82,15 +84,12 @@ function Checkmark(props: CheckmarkProps) {
     }, [setSelected, t1ClientRect, t2ClientRect]);
 
     return (
-        <img
-            alt="Twitter verified checkmark"
+        <CheckmarkSVG
             className={styles.checkmark}
-            src="/checkmark.png"
             style={{
                 left: `${pos.left * 100}%`,
                 top: `${pos.top * 100}%`,
             }}
-            draggable={false}
             ref={checkmarkRef}
         />
     );
