@@ -47,10 +47,10 @@
     overflow: hidden;
 
     & > *:first-child {
-        animation: fly-right 750ms forwards ease-out;
+        animation: fly-right 1500ms forwards ease-out;
     }
     & > *:last-child {
-        animation: fly-left 750ms forwards ease-out;
+        animation: fly-left 1500ms forwards ease-out;
     }
 }
 @keyframes fly-right {
