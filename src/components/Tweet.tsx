@@ -48,8 +48,8 @@ const Tweet = ({
     checkmarkPosition,
     tweetRef,
 }: {
-    checkmarkPosition: React.MutableRefObject<HTMLDivElement>;
-    tweetRef: React.MutableRefObject<HTMLDivElement>;
+    checkmarkPosition: React.MutableRefObject<HTMLDivElement | null>;
+    tweetRef: React.MutableRefObject<HTMLDivElement | null>;
     hover: boolean;
     company: ICompany;
     tweet: ITweet;
