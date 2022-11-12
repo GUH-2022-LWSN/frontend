@@ -1,12 +1,13 @@
+@import "../Colours.scss";
+
 .progress {
     width: 500px;
     height: 48px;
-    background-color: #063e60;
-    background-color: #0a6ca9;
+    background-color: $twitterBlue40;
     border-radius: 24px;
     position: relative;
     margin: auto;
-    border: 1px solid #fff;
+    border: 1px solid $white;
 
     &::after {
         display: block;
@@ -18,7 +19,7 @@
         top: 2px;
         height: calc(100% - 4px);
 
-        background-color: #3faef3;
+        background-color: $twitterBlue;
     }
 }
 
@@ -31,7 +32,7 @@
 
     z-index: 0;
 
-    color: #fff;
+    color: $white;
     z-index: 1;
     font-weight: 500;
     font-size: 32;

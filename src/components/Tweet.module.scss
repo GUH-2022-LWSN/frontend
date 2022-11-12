@@ -1,12 +1,12 @@
-$muted: #5E6F7B;
+@import "../Colours.scss";
 
 .tweet {
-    border: 1px solid #e0e7ec;
+    border: 1px solid $barelyWhite;
     border-radius: 6px;
     padding: 24px;
     display: flex;
     flex-direction: column;
-    background-color: #fff;
+    background-color: $white;
 }
 
 .head {
@@ -17,7 +17,7 @@ $muted: #5E6F7B;
 .pfp {
     width: 48px;
     height: 48px;
-    background-color: #e0e7ec;
+    background-color: $barelyWhite;
     border-radius: 50%;
 }
 .names {
