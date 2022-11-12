@@ -59,8 +59,6 @@ const Game = () => {
         };
     }, []);
 
-    console.log(disabled)
-
     const [level, setLevel] = useState(1);
     const [progress, setProgress] = useState(0);
     const onDrop = useCallback((selected: 1 | 2) => {
