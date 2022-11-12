@@ -15,8 +15,8 @@ function Checkmark() {
 
         const onMouseMove = (e: MouseEvent) => {
             setImagePos({
-                left: e.clientX - offsetX,
-                top: e.clientY - offsetY,
+                left: (e.clientX + window.scrollX) - offsetX,
+                top: (e.clientY + window.scrollY) - offsetY,
             });
         };
         
