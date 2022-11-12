@@ -21,7 +21,10 @@
     height: 48px;
     background-color: $barelyWhite;
     border-radius: 50%;
+    background-size: cover;
+    background-position: center;
 }
+
 .names {
     display: flex;
     flex-direction: column;
@@ -70,7 +73,7 @@
             height: 16px;
             margin-right: 4px;
         }
-        margin-right: 16px;
+        margin-right: 8px;
     }
 }
 

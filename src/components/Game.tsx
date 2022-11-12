@@ -4,10 +4,16 @@ import TwoTweets from "./TwoTweets";
 
 import Checkmark from "./Checkmark";
 import Score from "./Score";
+import { Tweet as ITweet } from "../types/Tweet";
+import { Company as ICompany } from "../types/Company";
 
 const Game = () => {
     const [selectedTweet, setSelectedTweet] = useState<0 | 1 | 2>(0);
     const [disabled, setDisabled] = useState<boolean>(false);
+
+    const [tweet1, setTweet1] = useState<ITweet | null>(null);
+    const [tweet2, setTweet2] = useState<ITweet | null>(null);
+    const [company, setCompany] = useState<ICompany | null>(null);
 
     const spaceRef = useRef<HTMLDivElement | null>(null);
     const tweet1Ref = useRef<HTMLElement | null>(null);
@@ -22,6 +28,8 @@ const Game = () => {
         let alive = true;
         let cT1: DOMRect | null = null;
         let cT2: DOMRect | null = null;
+
+        getTweetsFromServer();
 
         const setRects = () => {
             if (tweet1Ref.current) {
@@ -84,6 +92,84 @@ const Game = () => {
         }, 3000);
     }, []);
 
+    const getTweetsFromServer = () => {
+        // fetch(`${process.env.REACT_APP_SERVER_URL}/getTweets`).then((resp) => {
+            const resp = {
+                "company_id": "c901ae6a-1d48-4a",
+                "name": "Elon Musk",
+                "handle": "@elonmusk",
+                "picture": "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_400x400.jpg",
+                "followers": 15300000,
+                "following": 130,
+                "joined_date": "2009-06-01",
+                "tweets": [
+                    {
+                        "id_num": "d9a55b10-6fcb-4f",
+                        "body": "ðŸª¦ðŸ¤–",
+                        "vibe": "Soon",
+                        "retweets": 18100,
+                        "quote_tweets": 4157,
+                        "likes": 223800,
+                        "date": "2022-11-12T07:36:00",
+                        "attachment": ""
+                    },
+                    {
+                        "id_num": "55eb91dd-119e-4b",
+                        "body": "ðŸ¤¡",
+                        "vibe": "Soon",
+                        "retweets": 18100,
+                        "quote_tweets": 4327,
+                        "likes": 193600,
+                        "date": "2022-11-12T05:12:00",
+                        "attachment": ""
+                    }
+                ],
+            };
+
+            setCompany({
+                company_id: resp.company_id,
+                name: resp.name,
+                handle: resp.handle,
+                picture: resp.picture,
+                followers: resp.followers,
+                following: resp.following,
+                joined_date: resp.joined_date,
+            });
+
+            setTweet1({
+                attachment: resp.tweets[0].attachment,
+                body: resp.tweets[0].body,
+                date: new Date(resp.tweets[0].date),
+                interactions: {
+                    likes: resp.tweets[0].likes,
+                    replies: 0,
+                    quote_tweets: resp.tweets[0].quote_tweets,
+                    retweets: resp.tweets[0].retweets,
+                },
+                tweet_id: resp.tweets[0].id_num,
+                vibe: resp.tweets[0].vibe,
+            });
+
+            setTweet2({
+                attachment: resp.tweets[1].attachment,
+                body: resp.tweets[1].body,
+                date: new Date(resp.tweets[1].date),
+                interactions: {
+                    likes: resp.tweets[1].likes,
+                    replies: 0,
+                    quote_tweets: resp.tweets[1].quote_tweets,
+                    retweets: resp.tweets[1].retweets,
+                },
+                tweet_id: resp.tweets[1].id_num,
+                vibe: resp.tweets[1].vibe,
+            });
+        // });
+    };
+
+    if (!tweet1 || !tweet2 || !company) {
+        return null;
+    }
+
     return (
         <>
             <Checkmark
@@ -101,38 +187,10 @@ const Game = () => {
 
             <Score score={score} />
             <TwoTweets
-                tweet1={{
-                    user: {
-                        displayName: "Test User",
-                        handle: "hi",
-                        pfp: "http://placekitten.com/48/48",
-                    },
-                    body: "Hi!!",
-                    attachment: "http://placekitten.com/1000/500",
-                    stats: {
-                        replies: 0,
-                        retweets: 0,
-                        likes: 0,
-                        date: "Just now",
-                    },
-                    hover: selectedTweet === 1,
-                }}
-                tweet2={{
-                    user: {
-                        displayName: "Test User",
-                        handle: "hi",
-                        pfp: "http://placekitten.com/48/48",
-                    },
-                    body: "Hi!!",
-                    attachment: "http://placekitten.com/1000/500",
-                    stats: {
-                        replies: 0,
-                        retweets: 0,
-                        likes: 0,
-                        date: "Just now",
-                    },
-                    hover: selectedTweet === 2,
-                }}
+                company={company}
+                tweet1={tweet1}
+                tweet2={tweet2}
+                selectedTweet={selectedTweet}
                 tweet1Ref={tweet1Ref}
                 tweet2Ref={tweet2Ref}
                 tweet1CMRef={tweet1CMRef}

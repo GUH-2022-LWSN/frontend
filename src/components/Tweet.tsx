@@ -1,26 +1,41 @@
 import { useState, memo } from "react";
-import { TweetInfo } from "../types/tweet";
+import { Company as ICompany } from "../types/Company";
+import { Tweet as ITweet } from "../types/Tweet";
 import { Like, Reply, Retweet } from "./Icons";
 
 import styles from "./Tweet.module.scss";
 
+
 const Tweet = ({
+    hover,
+    company,
     tweet,
     checkmarkPosition,
     tweetRef,
 }: {
-    tweet: TweetInfo;
     checkmarkPosition: React.MutableRefObject<HTMLDivElement>;
     tweetRef: React.MutableRefObject<HTMLDivElement>;
+    hover: boolean;
+    company: ICompany,
+    tweet: ITweet;
 }) => {
     const [lightbox, setLightbox] = useState(false);
+    
+    const formatDate = (d: Date) => {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        const hours = d.getHours() === 0 ? 12 : (d.getHours() > 12 ? d.getHours() - 12 : d.getHours());
+        const suffix = d.getHours() > 11 ? 'PM' : 'AM';
+
+        return `${hours}:${d.getMinutes()} ${suffix} · ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
+    }
 
     return (
         <div
             className={styles.tweet}
             ref={tweetRef}
             style={{
-                boxShadow: tweet.hover
+                boxShadow: hover
                     ? "5px 5px 50px -1px rgba(0,0,0,0.4)"
                     : "5px 5px 10px -5px rgba(0,0,0,0.4)",
             }}
@@ -29,15 +44,15 @@ const Tweet = ({
                 <div
                     className={styles.pfp}
                     style={{
-                        backgroundImage: `url(${tweet.user.pfp})`,
+                        backgroundImage: `url(${company.picture})`,
                     }}
                 />
                 <div className={styles.names}>
                     <div className={styles.displayName}>
-                        {tweet.user.displayName}
+                        {company.name}
                         <div ref={checkmarkPosition} />
                     </div>
-                    <div className={styles.handle}>@{tweet.user.handle}</div>
+                    <div className={styles.handle}>@{company.handle}</div>
                 </div>
             </div>
             <div className={styles.body}>{tweet.body}</div>
@@ -49,20 +64,22 @@ const Tweet = ({
                     src={tweet.attachment}
                 />
             ) : null}
+            <br />
             <div className={styles.foot}>
+                <span>{formatDate(tweet.date)}</span>
+                <span>|</span>
                 <span>
                     <Reply />
-                    {tweet.stats.replies}
+                    {tweet.interactions.replies}
                 </span>
                 <span>
                     <Retweet />
-                    {tweet.stats.retweets}
+                    {tweet.interactions.retweets}
                 </span>
                 <span>
                     <Like />
-                    {tweet.stats.likes}
+                    {tweet.interactions.likes}
                 </span>
-                <span>{tweet.stats.date}</span>
             </div>
 
             {lightbox && tweet.attachment ? (

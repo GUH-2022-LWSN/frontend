@@ -1,16 +1,13 @@
-export type TweetInfo = {
-    user: {
-        pfp: string;
-        displayName: string;
-        handle: string;
-    };
-    body: string;
+export type Tweet = {
     attachment: string | null;
-    stats: {
-        replies: number;
+    body: string;
+    date: Date;
+    interactions: {
         likes: number;
+        replies: number;
+        quote_tweets: number;
         retweets: number;
-        date: string; // TODO: Make this a Date()
     };
-    hover: boolean;
+    tweet_id: string;
+    vibe: string | null;
 };
