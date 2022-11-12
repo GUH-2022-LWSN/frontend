@@ -45,6 +45,10 @@
     margin: 12px auto 12px 0;
     border-radius: 8px;
 
+    @media only screen and (max-width: 640px) {
+        max-height: 128px;
+    }
+
     cursor: pointer;
 }
 

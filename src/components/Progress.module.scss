@@ -1,10 +1,16 @@
 @import "../Colours.scss";
 
 $height: 48px;
+$heightSmall: 36px;
 
 .progress {
     width: 500px;
+    max-width: 90vw;
+
     height: $height;
+    @media only screen and (max-width: 540px) {
+        height: $heightSmall;
+    }
     background-color: $twitterBlue40;
     border-radius: 24px;
     position: relative;
@@ -43,4 +49,7 @@ $height: 48px;
     font-size: 32;
 
     line-height: $height;
+    @media only screen and (max-width: 540px) {
+        line-height: $heightSmall;
+    }
 }
