@@ -1,3 +1,70 @@
+$muted: #555;
+
 .tweet {
-    padding: 8px;
+    margin: 64px;
+
+    border: 1px solid #e0e7ec;
+    border-radius: 6px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.head {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.pfp {
+    width: 48px;
+    height: 48px;
+    background-color: #e0e7ec;
+    border-radius: 50%;
+}
+.names {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 12px;
+
+    .displayName {
+        font-weight: 700;
+    }
+    .handle {
+        color: $muted;
+    }
+}
+
+.body {
+    font-size: 1.6em;
+}
+
+.attachment {
+    max-height: 256px;
+    max-width: 100%;
+    margin: 12px auto 12px 0;
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.foot {
+    color: $muted;
+    margin-top: 4px;
+    display: flex;
+    font-weight: 400;
+
+    & > span {
+        display: flex;
+        align-items: center;
+        svg {
+            color: inherit;
+            fill: currentColor;
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+        }
+        margin-right: 16px;
+    }
 }
