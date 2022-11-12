@@ -26,7 +26,13 @@ const Like = () => (
     </svg>
 );
 
-const Tweet = ({ tweet, tweetRef }: { tweet: TweetInfo, tweetRef: React.MutableRefObject<any> }) => {
+const Tweet = ({
+    tweet,
+    tweetRef,
+}: {
+    tweet: TweetInfo;
+    tweetRef: React.MutableRefObject<any>;
+}) => {
     const [lightbox, setLightbox] = useState(false);
 
     return (
@@ -34,7 +40,9 @@ const Tweet = ({ tweet, tweetRef }: { tweet: TweetInfo, tweetRef: React.MutableR
             className={styles.tweet}
             ref={tweetRef}
             style={{
-                boxShadow: tweet.hover ? '5px 5px 50px -5px rgba(0,0,0,0.4)' : '5px 5px 10px -5px rgba(0,0,0,0.4)',
+                boxShadow: tweet.hover
+                    ? "5px 5px 50px -5px rgba(0,0,0,0.4)"
+                    : "5px 5px 10px -5px rgba(0,0,0,0.4)",
             }}
         >
             <div className={styles.head}>
@@ -54,6 +62,7 @@ const Tweet = ({ tweet, tweetRef }: { tweet: TweetInfo, tweetRef: React.MutableR
             <div className={styles.body}>{tweet.body}</div>
             {tweet.attachment ? (
                 <img
+                    alt=""
                     onClick={() => setLightbox(true)}
                     className={styles.attachment}
                     src={tweet.attachment}
@@ -80,7 +89,7 @@ const Tweet = ({ tweet, tweetRef }: { tweet: TweetInfo, tweetRef: React.MutableR
                     onClick={() => setLightbox(false)}
                     className={styles.lightbox}
                 >
-                    <img src={tweet.attachment} />
+                    <img alt="" src={tweet.attachment} />
                 </div>
             ) : null}
         </div>
