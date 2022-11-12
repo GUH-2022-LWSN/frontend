@@ -1,6 +1,6 @@
 import Tweet from "./Tweet";
-import { Company as ICompany } from '../types/Company';
-import { Tweet as ITweet } from '../types/Tweet';
+import { Company as ICompany } from '../types/company';
+import { Tweet as ITweet } from '../types/tweet';
 
 import styles from "./TwoTweets.module.scss";
 

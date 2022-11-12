@@ -1,6 +1,6 @@
 import { useState, memo } from "react";
-import { Company as ICompany } from "../types/Company";
-import { Tweet as ITweet } from "../types/Tweet";
+import { Company as ICompany } from "../types/company";
+import { Tweet as ITweet } from "../types/tweet";
 import { Like, Reply, Retweet } from "./Icons";
 
 import styles from "./Tweet.module.scss";

@@ -4,8 +4,8 @@ import TwoTweets from "./TwoTweets";
 
 import Checkmark from "./Checkmark";
 import Score from "./Score";
-import { Tweet as ITweet } from "../types/Tweet";
-import { Company as ICompany } from "../types/Company";
+import { Tweet as ITweet } from "../types/tweet";
+import { Company as ICompany } from "../types/company";
 
 const Game = () => {
     const [selectedTweet, setSelectedTweet] = useState<0 | 1 | 2>(0);
