@@ -7,6 +7,7 @@ import Score from "./Score";
 import { Tweet as ITweet } from "../types/tweet";
 import { Company as ICompany } from "../types/company";
 import OldTweets from "./OldTweets";
+import Lives, { MAX_LIFE } from "./Lives";
 
 let last = true;
 const sendAnswerToServer = (selected: 1 | 2): 1 | 2 => {
@@ -93,6 +94,7 @@ const Game = () => {
     const [level, setLevel] = useState(1);
     const [progress, setProgress] = useState(0);
     const [score, setScore] = useState(0);
+    const [lives, setLives] = useState(MAX_LIFE);
     const onDrop = useCallback((selected: 1 | 2) => {
         const correct = sendAnswerToServer(selected);
         if (correct === selected) {
@@ -108,6 +110,8 @@ const Game = () => {
                 return 0;
             });
             setScore((oldScore) => oldScore + 8);
+        } else {
+            setLives(old => Math.max(0, old - 1));
         }
         setCorrectTweet(correct);
         setDisabled(true);
@@ -254,6 +258,7 @@ const Game = () => {
                 correctAnswer={correctTweet}
             />
 
+            <Lives life={lives} />
             <Score score={score} />
             {tweet1 && tweet2 && company ? (
                 <TwoTweets
