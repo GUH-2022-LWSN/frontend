@@ -1,23 +1,27 @@
 @import "../Colours.scss";
 
+$height: 48px;
+
 .progress {
     width: 500px;
-    height: 48px;
+    height: $height;
     background-color: $twitterBlue40;
     border-radius: 24px;
     position: relative;
     margin: auto;
-    border: 1px solid $white;
+    border: 2px solid $white;
 
     &::after {
         display: block;
         content: "";
         position: absolute;
         border-radius: inherit;
-        width: calc(50% - 4px);
-        left: 2px;
-        top: 2px;
-        height: calc(100% - 4px);
+        width: calc((var(--progress) * 100%) - 6px);
+        left: 3px;
+        top: 3px;
+        height: calc(100% - 6px);
+
+        transition: 150ms width ease-in;
 
         background-color: $twitterBlue;
     }
@@ -29,6 +33,7 @@
     top: 50%;
     max-width: 100%;
     transform: translate(-50%, -50%);
+    user-select: none;
 
     z-index: 0;
 
@@ -36,4 +41,6 @@
     z-index: 1;
     font-weight: 500;
     font-size: 32;
+
+    line-height: $height;
 }

@@ -38,7 +38,7 @@ const App = () => {
                     },
                 }}
             />
-            <Progress />
+            <Progress level={1} progress={.70} />
         </Page>
     );
 };

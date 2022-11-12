@@ -1,9 +1,13 @@
 import styles from "./Progress.module.scss";
 
-const Progress = () => {
-    return <div className={styles.progress}>
-        <div className={styles.label}>50%!</div>
-        <div className={styles.label}>50%!</div>
-    </div>;
+const Progress = ({ level, progress }: { level: number, progress: number }) => {
+    return (
+        <div
+            className={styles.progress}
+            style={{ "--progress": progress } as React.CSSProperties}
+        >
+            <div className={styles.label}>Level {level} - {Math.round(progress * 100)}%</div>
+        </div>
+    );
 };
 export default Progress;
