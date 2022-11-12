@@ -6,6 +6,41 @@ import { Like, Reply, Retweet } from "./Icons";
 import styles from "./Tweet.module.scss";
 
 
+const formatDate = (d: Date): string => {
+    const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+
+    const hours =
+        d.getHours() === 0
+            ? 12
+            : d.getHours() > 12
+            ? d.getHours() - 12
+            : d.getHours();
+    const suffix = d.getHours() > 11 ? "PM" : "AM";
+
+    return `${hours}:${d.getMinutes()} ${suffix} - ${
+        months[d.getMonth()]
+    } ${d.getDate()}, ${d.getFullYear()}`;
+};
+
+const formatNumber = (n: number): string => {
+    if (n < 100) return n.toString();
+    if (n < 10_000) return n.toLocaleString();
+    return `${(n/1000).toFixed(0)}K`
+}
+
 const Tweet = ({
     hover,
     company,
@@ -16,19 +51,10 @@ const Tweet = ({
     checkmarkPosition: React.MutableRefObject<HTMLDivElement>;
     tweetRef: React.MutableRefObject<HTMLDivElement>;
     hover: boolean;
-    company: ICompany,
+    company: ICompany;
     tweet: ITweet;
 }) => {
     const [lightbox, setLightbox] = useState(false);
-    
-    const formatDate = (d: Date) => {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-        const hours = d.getHours() === 0 ? 12 : (d.getHours() > 12 ? d.getHours() - 12 : d.getHours());
-        const suffix = d.getHours() > 11 ? 'PM' : 'AM';
-
-        return `${hours}:${d.getMinutes()} ${suffix} · ${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
-    }
 
     return (
         <div
@@ -66,20 +92,19 @@ const Tweet = ({
             ) : null}
             <br />
             <div className={styles.foot}>
-                <span>{formatDate(tweet.date)}</span>
-                <span>|</span>
                 <span>
                     <Reply />
-                    {tweet.interactions.replies}
+                    {formatNumber(tweet.interactions.replies)}
                 </span>
                 <span>
                     <Retweet />
-                    {tweet.interactions.retweets}
+                    {formatNumber(tweet.interactions.retweets)}
                 </span>
                 <span>
                     <Like />
-                    {tweet.interactions.likes}
+                    {formatNumber(tweet.interactions.likes)}
                 </span>
+                <span>{formatDate(tweet.date)}</span>
             </div>
 
             {lightbox && tweet.attachment ? (

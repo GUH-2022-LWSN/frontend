@@ -166,7 +166,7 @@ function Checkmark(props: CheckmarkProps) {
                 : tweet2CMRef.current
         ).getBoundingClientRect();
         left = (name.left + 16) / window.innerWidth;
-        top = (name.top + 12) / window.innerHeight;
+        top = (name.top + 11) / window.innerHeight;
     }
 
     return (
