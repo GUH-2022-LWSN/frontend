@@ -12,6 +12,8 @@ const Game = () => {
     const spaceRef = useRef<HTMLDivElement | null>(null);
     const tweet1Ref = useRef<HTMLElement | null>(null);
     const tweet2Ref = useRef<HTMLElement | null>(null);
+    const tweet1CMRef = useRef<HTMLElement | null>(null);
+    const tweet2CMRef = useRef<HTMLElement | null>(null);
 
     const [t1ClientRect, setT1ClientRect] = useState<null | DOMRect>(null);
     const [t2ClientRect, setT2ClientRect] = useState<null | DOMRect>(null);
@@ -88,9 +90,13 @@ const Game = () => {
                 setSelected={setSelectedTweet}
                 t1ClientRect={t1ClientRect}
                 t2ClientRect={t2ClientRect}
+                tweet1CMRef={tweet1CMRef}
+                tweet2CMRef={tweet2CMRef}
                 spaceRef={spaceRef}
                 onDrop={onDrop}
                 disabled={disabled}
+
+                correctAnswer={2}
             />
 
             <Score score={score} />
@@ -129,6 +135,8 @@ const Game = () => {
                 }}
                 tweet1Ref={tweet1Ref}
                 tweet2Ref={tweet2Ref}
+                tweet1CMRef={tweet1CMRef}
+                tweet2CMRef={tweet2CMRef}
             />
             <div ref={spaceRef} style={{ flexGrow: 1 }} />
             <Progress level={level} progress={progress} />

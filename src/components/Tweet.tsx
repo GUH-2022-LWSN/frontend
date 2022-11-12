@@ -6,10 +6,12 @@ import styles from "./Tweet.module.scss";
 
 const Tweet = ({
     tweet,
+    checkmarkPosition,
     tweetRef,
 }: {
     tweet: TweetInfo;
-    tweetRef: React.MutableRefObject<any>;
+    checkmarkPosition: React.MutableRefObject<HTMLDivElement>;
+    tweetRef: React.MutableRefObject<HTMLDivElement>;
 }) => {
     const [lightbox, setLightbox] = useState(false);
 
@@ -33,6 +35,7 @@ const Tweet = ({
                 <div className={styles.names}>
                     <div className={styles.displayName}>
                         {tweet.user.displayName}
+                        <div ref={checkmarkPosition} />
                     </div>
                     <div className={styles.handle}>@{tweet.user.handle}</div>
                 </div>

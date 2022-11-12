@@ -12,6 +12,10 @@ interface CheckmarkProps {
     spaceRef: React.MutableRefObject<null | HTMLDivElement>;
     t1ClientRect: null | DOMRect;
     t2ClientRect: null | DOMRect;
+    tweet1CMRef: React.MutableRefObject<HTMLElement | null>;
+    tweet2CMRef: React.MutableRefObject<HTMLElement | null>;
+
+    correctAnswer: number;
 }
 
 const intersectionAmount = (r1: DOMRect, r2: DOMRect): number => {
@@ -32,10 +36,18 @@ function Checkmark(props: CheckmarkProps) {
 
         return () => {
             clearTimeout(to);
-        }
-    }, [])
+        };
+    }, []);
 
-    const { disabled, setSelected, t1ClientRect, t2ClientRect, onDrop } = props;
+    const {
+        disabled,
+        setSelected,
+        t1ClientRect,
+        t2ClientRect,
+        onDrop,
+        tweet1CMRef,
+        tweet2CMRef,
+    } = props;
 
     const checkmarkRef = useRef<SVGSVGElement | null>(null);
 
@@ -87,7 +99,7 @@ function Checkmark(props: CheckmarkProps) {
 
         const onMouseDown = (e: MouseEvent) => {
             if (
-                !disabled && 
+                !disabled &&
                 checkmarkRef.current &&
                 e.target &&
                 checkmarkRef.current.contains(e.target as Node)
@@ -107,7 +119,6 @@ function Checkmark(props: CheckmarkProps) {
             document.removeEventListener("mousemove", onMouseMove);
             setDragging(false);
             if (selectedRef.current !== 0) onDrop(selectedRef.current);
-            selectedRef.current = 0;
             setSelected(0);
         };
 
@@ -120,6 +131,10 @@ function Checkmark(props: CheckmarkProps) {
             document.removeEventListener("mousemove", onMouseMove);
         };
     }, [setSelected, t1ClientRect, t2ClientRect, onDrop, disabled]);
+
+    useEffect(() => {
+        if (!disabled) selectedRef.current = 0;
+    }, [disabled]);
 
     if (!props.spaceRef.current) return null;
 
@@ -136,11 +151,37 @@ function Checkmark(props: CheckmarkProps) {
         top = sbTop;
     }
 
+    const byName = disabled && selectedRef.current;
+
+    if (
+        byName &&
+        props.correctAnswer &&
+        tweet1CMRef.current &&
+        tweet2CMRef.current
+    ) {
+        const name = (
+            selectedRef.current === 1
+                ? tweet1CMRef.current
+                : tweet2CMRef.current
+        ).getBoundingClientRect();
+        left = (name.left + 16) / window.innerWidth;
+        top = (name.top + 12) / window.innerHeight;
+    }
+
     return (
         <>
             <CheckmarkSVG
                 className={
-                    styles.checkmark + (dragging ? "" : " " + styles.goingHome)
+                    styles.checkmark +
+                    (byName
+                        ? " " +
+                          styles.byName +
+                          (selectedRef.current !== props.correctAnswer
+                              ? " " + styles.incorrect
+                              : "")
+                        : dragging
+                        ? ""
+                        : " " + styles.goingHome)
                 }
                 style={{
                     opacity: disabled ? 0.8 : 1,
