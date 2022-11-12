@@ -105,7 +105,7 @@ const Game = () => {
                 "tweets": [
                     {
                         "id_num": "d9a55b10-6fcb-4f",
-                        "body": "ðŸª¦ðŸ¤–",
+                        "body": "🪦🤖",
                         "vibe": "Soon",
                         "retweets": 18100,
                         "quote_tweets": 4157,
@@ -115,7 +115,7 @@ const Game = () => {
                     },
                     {
                         "id_num": "55eb91dd-119e-4b",
-                        "body": "ðŸ¤¡",
+                        "body": "🤡",
                         "vibe": "Soon",
                         "retweets": 18100,
                         "quote_tweets": 4327,
