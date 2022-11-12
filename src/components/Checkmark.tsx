@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import styles from "./Checkmark.module.scss";
 
 import CheckmarkSVG from "./CheckmarkSVG";
+import DragMeSVG from "./DragMeSVG";
 
 interface CheckmarkProps {
     setSelected(selected: 0 | 1 | 2): void;
@@ -19,7 +20,20 @@ const intersectionAmount = (r1: DOMRect, r2: DOMRect): number => {
     return 0;
 };
 
+let everDragged = false;
+
 function Checkmark(props: CheckmarkProps) {
+    const [showShake, setShowShake] = useState(false);
+    useEffect(() => {
+        const to = setTimeout(() => {
+            if (!everDragged) setShowShake(true);
+        }, 3000);
+
+        return () => {
+            clearTimeout(to);
+        }
+    }, [])
+
     const { setSelected, t1ClientRect, t2ClientRect, onDrop } = props;
 
     const checkmarkRef = useRef<SVGSVGElement | null>(null);
@@ -60,6 +74,10 @@ function Checkmark(props: CheckmarkProps) {
                 }
             }
 
+            if (!everDragged) {
+                everDragged = true;
+                setShowShake(false);
+            }
             setPos({
                 left: left / window.innerWidth,
                 top: top / window.innerHeight,
@@ -105,26 +123,38 @@ function Checkmark(props: CheckmarkProps) {
 
     let left: number = 0,
         top: number = 0;
+    const spaceBox = props.spaceRef.current.getBoundingClientRect();
+    const sbLeft = (spaceBox.left + spaceBox.width / 2) / window.innerWidth;
+    const sbTop = (spaceBox.top + spaceBox.height / 2) / window.innerHeight;
     if (dragging) {
         left = pos.left;
         top = pos.top;
     } else {
-        const spaceBox = props.spaceRef.current.getBoundingClientRect();
-        left = (spaceBox.left + spaceBox.width / 2) / window.innerWidth;
-        top = (spaceBox.top + spaceBox.height / 2) / window.innerHeight;
+        left = sbLeft;
+        top = sbTop;
     }
 
     return (
-        <CheckmarkSVG
-            className={
-                styles.checkmark + (dragging ? "" : " " + styles.goingHome)
-            }
-            style={{
-                left: `${left * 100}%`,
-                top: `${top * 100}%`,
-            }}
-            ref={checkmarkRef}
-        />
+        <>
+            <CheckmarkSVG
+                className={
+                    styles.checkmark + (dragging ? "" : " " + styles.goingHome)
+                }
+                style={{
+                    left: `${left * 100}%`,
+                    top: `${top * 100}%`,
+                }}
+                ref={checkmarkRef}
+            />
+            <DragMeSVG
+                className={styles.dragme}
+                style={{
+                    opacity: showShake ? 1 : 0,
+                    left: `${sbLeft * 100}%`,
+                    top: `${sbTop * 100}%`,
+                }}
+            />
+        </>
     );
 }
 

@@ -16,3 +16,23 @@
         filter: drop-shadow(0 0 50px rgba(0, 0, 0, 0.4));
     }
 }
+
+$dragmeTranslate: translate(120px, -50px);
+.dragme {
+    position: absolute;
+    height: 100px;
+    transition: 200ms opacity ease;
+
+    animation: 3000ms infinite wobble;
+}
+
+@keyframes wobble {
+    0% { transform: $dragmeTranslate; }
+    40% { transform: $dragmeTranslate; }
+    45% { transform: $dragmeTranslate rotate(-5deg); }
+    50% { transform: $dragmeTranslate rotate(15deg); }
+    55% { transform: $dragmeTranslate rotate(-15deg); }
+    60% { transform: $dragmeTranslate rotate(5deg); }
+    65% { transform: $dragmeTranslate; }
+    100% { transform: $dragmeTranslate; }
+}
