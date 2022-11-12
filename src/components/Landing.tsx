@@ -2,6 +2,7 @@ import styles from './Landing.module.scss';
 
 interface LandingProps {
     start(): void;
+    end(): void;
 }
 
 function Landing(props: LandingProps) {
