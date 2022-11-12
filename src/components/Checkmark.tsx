@@ -8,6 +8,7 @@ interface CheckmarkProps {
     setSelected(selected: 0 | 1 | 2): void;
     onDrop(selected: 1 | 2): void;
 
+    disabled: boolean;
     spaceRef: React.MutableRefObject<null | HTMLDivElement>;
     t1ClientRect: null | DOMRect;
     t2ClientRect: null | DOMRect;
@@ -34,7 +35,7 @@ function Checkmark(props: CheckmarkProps) {
         }
     }, [])
 
-    const { setSelected, t1ClientRect, t2ClientRect, onDrop } = props;
+    const { disabled, setSelected, t1ClientRect, t2ClientRect, onDrop } = props;
 
     const checkmarkRef = useRef<SVGSVGElement | null>(null);
 
@@ -86,6 +87,7 @@ function Checkmark(props: CheckmarkProps) {
 
         const onMouseDown = (e: MouseEvent) => {
             if (
+                !disabled && 
                 checkmarkRef.current &&
                 e.target &&
                 checkmarkRef.current.contains(e.target as Node)
@@ -117,7 +119,7 @@ function Checkmark(props: CheckmarkProps) {
             document.removeEventListener("mouseup", onMouseUp);
             document.removeEventListener("mousemove", onMouseMove);
         };
-    }, [setSelected, t1ClientRect, t2ClientRect, onDrop]);
+    }, [setSelected, t1ClientRect, t2ClientRect, onDrop, disabled]);
 
     if (!props.spaceRef.current) return null;
 
@@ -141,6 +143,7 @@ function Checkmark(props: CheckmarkProps) {
                     styles.checkmark + (dragging ? "" : " " + styles.goingHome)
                 }
                 style={{
+                    opacity: disabled ? 0.8 : 1,
                     left: `${left * 100}%`,
                     top: `${top * 100}%`,
                 }}
@@ -149,7 +152,7 @@ function Checkmark(props: CheckmarkProps) {
             <DragMeSVG
                 className={styles.dragme}
                 style={{
-                    opacity: showShake ? 1 : 0,
+                    opacity: showShake && !disabled ? 1 : 0,
                     left: `${sbLeft * 100}%`,
                     top: `${sbTop * 100}%`,
                 }}

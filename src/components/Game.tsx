@@ -6,6 +6,7 @@ import Checkmark from "./Checkmark";
 
 const Game = () => {
     const [selectedTweet, setSelectedTweet] = useState<0 | 1 | 2>(0);
+    const [disabled, setDisabled] = useState<boolean>(false);
 
     const spaceRef = useRef<HTMLDivElement | null>(null);
     const tweet1Ref = useRef<HTMLElement | null>(null);
@@ -58,10 +59,15 @@ const Game = () => {
         };
     }, []);
 
+    console.log(disabled)
+
     const [level, setLevel] = useState(1);
     const [progress, setProgress] = useState(0);
     const onDrop = useCallback((selected: 1 | 2) => {
-        console.log("Selected was", selected);
+        setDisabled(true);
+        setTimeout(() => {
+            setDisabled(false);
+        }, 3000);
         setProgress((oldProg) => {
             let newProg = 0;
             setLevel((oldLevel) => {
@@ -83,6 +89,7 @@ const Game = () => {
                 t2ClientRect={t2ClientRect}
                 spaceRef={spaceRef}
                 onDrop={onDrop}
+                disabled={disabled}
             />
 
             <TwoTweets
