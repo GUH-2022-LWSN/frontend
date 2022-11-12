@@ -1,9 +1,10 @@
 import React from "react";
+import Page from "./components/Page";
 import Tweet from "./components/Tweet";
 
 const App = () => {
     return (
-        <div>
+        <>
             <Tweet
                 tweet={{
                     user: {
@@ -21,7 +22,8 @@ const App = () => {
                     },
                 }}
             />
-        </div>
+            <Page />
+        </>
     );
 };
 
