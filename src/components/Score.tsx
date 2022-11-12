@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Like } from "./Icons";
+import { useState, useEffect, useRef } from "react";
+import CheckmarkWhite from "./CheckmarkWhite";
 
 import styles from "./Score.module.scss";
 
@@ -19,11 +19,29 @@ const Score = ({ score }: { score: number }) => {
             );
     }, [anim]);
 
+    const [current, setCurrent] = useState(score);
+    const currentRef = useRef(score);
+    useEffect(() => {
+        let alive = true;
+        const raf = () => {
+            if (currentRef.current < score)
+                setCurrent((old) => {
+                    currentRef.current = old + 0.25;
+                    return old + 0.25;
+                });
+            if (alive) requestAnimationFrame(raf);
+        };
+        requestAnimationFrame(raf);
+        return () => {
+            alive = false;
+        };
+    }, [score]);
+
     return (
         <div className={styles.wrap}>
             <div className={styles.score}>
-                {score ? score : 0}
-                <Like
+                ${(-current).toFixed(2)}
+                <CheckmarkWhite
                     className={
                         styles.popup +
                         (anim === STATE_SHOW ? " " + styles.run : "")

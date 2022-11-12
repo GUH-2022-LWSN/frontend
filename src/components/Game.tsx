@@ -75,7 +75,7 @@ const Game = () => {
             if (newProg < 0.99999) return newProg;
             return 0;
         });
-        setScore((oldScore) => oldScore + 100);
+        setScore((oldScore) => oldScore + 8);
         setDisabled(true);
         setTimeout(() => {
             setDisabled(false);
