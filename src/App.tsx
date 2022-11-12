@@ -38,6 +38,7 @@ const App = () => {
                     },
                 }}
             />
+            <div style={{flexGrow: 1}} />
             <Progress level={1} progress={.70} />
         </Page>
     );
