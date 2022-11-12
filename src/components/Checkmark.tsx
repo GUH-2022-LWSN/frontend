@@ -28,13 +28,12 @@ function Checkmark(props: CheckmarkProps) {
             const left = e.clientX - offsetRef.current.left;
             const top = e.clientY - offsetRef.current.top;
 
-            console.log(checkmarkRef.current , t1ClientRect , t2ClientRect);
             if (checkmarkRef.current && t1ClientRect && t2ClientRect) {
                 const realCheckmarkBox =
                     checkmarkRef.current.getBoundingClientRect();
                 const checkmarkBox = new DOMRect(
-                    left,
-                    top,
+                    left - realCheckmarkBox.width / 2,
+                    top - realCheckmarkBox.height / 2,
                     realCheckmarkBox.width,
                     realCheckmarkBox.height
                 );
@@ -60,8 +59,11 @@ function Checkmark(props: CheckmarkProps) {
                 checkmarkRef.current.contains(e.target as Node)
             ) {
                 document.addEventListener("mousemove", onMouseMove);
-                offsetRef.current.left = e.offsetX;
-                offsetRef.current.top = e.offsetY;
+                const realCheckmarkBox =
+                    checkmarkRef.current.getBoundingClientRect();
+
+                offsetRef.current.left = e.offsetX - realCheckmarkBox.width / 2;
+                offsetRef.current.top = e.offsetY - realCheckmarkBox.height / 2;
             }
         };
 
