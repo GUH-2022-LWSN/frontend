@@ -20,7 +20,7 @@ const sendAnswerToServer = (selected: 1 | 2): 1 | 2 => {
     return resp.answer ? selected : selected === 1 ? 2 : 1;
 };
 
-const Game = () => {
+const Game = ({ end }: { end(): void }) => {
     const networkState = useRef<number>(0);
 
     const [selectedTweet, setSelectedTweet] = useState<0 | 1 | 2>(0);
@@ -95,32 +95,47 @@ const Game = () => {
     const [progress, setProgress] = useState(0);
     const [score, setScore] = useState(0);
     const [lives, setLives] = useState(MAX_LIFE);
-    const onDrop = useCallback((selected: 1 | 2) => {
-        const correct = sendAnswerToServer(selected);
-        if (correct === selected) {
-            setProgress((oldProg) => {
-                let newProg = 0;
-                setLevel((oldLevel) => {
-                    newProg = oldProg + 1 / 2 ** (oldLevel + 1);
-                    // Float rounding...
-                    if (newProg < 0.99999) return oldLevel;
-                    return oldLevel + 1;
+    const onDrop = useCallback(
+        (selected: 1 | 2) => {
+            const correct = sendAnswerToServer(selected);
+            setCorrectTweet(correct);
+            setDisabled(true);
+            let canContinue = true;
+
+            if (correct === selected) {
+                setProgress((oldProg) => {
+                    let newProg = 0;
+                    setLevel((oldLevel) => {
+                        newProg = oldProg + 1 / 2 ** (oldLevel + 1);
+                        // Float rounding...
+                        if (newProg < 0.99999) return oldLevel;
+                        return oldLevel + 1;
+                    });
+                    if (newProg < 0.99999) return newProg;
+                    return 0;
                 });
-                if (newProg < 0.99999) return newProg;
-                return 0;
-            });
-            setScore((oldScore) => oldScore + 8);
-        } else {
-            setLives(old => Math.max(0, old - 1));
-        }
-        setCorrectTweet(correct);
-        setDisabled(true);
-        setTimeout(() => {
-            setCorrectTweet(0);
-            setDisabled(false);
-            getTweetsFromServer();
-        }, 1500);
-    }, []);
+                setScore((oldScore) => oldScore + 8);
+            } else {
+                setLives((old) => {
+                    if (old === 0) {
+                        canContinue = false;
+                        setTimeout(() => {
+                            end();
+                        }, 1500);
+                        return old;
+                    } else return Math.max(-1, old - 1);
+                });
+            }
+
+            if (canContinue)
+                setTimeout(() => {
+                    setCorrectTweet(0);
+                    setDisabled(false);
+                    getTweetsFromServer();
+                }, 1500);
+        },
+        [end]
+    );
 
     const getTweetsFromServer = () => {
         networkState.current = 1;
@@ -254,11 +269,11 @@ const Game = () => {
                 tweet2CMRef={tweet2CMRef}
                 spaceRef={spaceRef}
                 onDrop={onDrop}
-                disabled={disabled}
+                disabled={disabled || lives === -1}
                 correctAnswer={correctTweet}
             />
 
-            <Lives life={lives} />
+            <Lives life={Math.max(0, lives)} />
             <Score score={score} />
             {tweet1 && tweet2 && company ? (
                 <TwoTweets
