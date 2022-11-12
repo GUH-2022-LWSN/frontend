@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import styles from "./Tweet.module.scss";
 
 const Reply = () => (
@@ -40,6 +42,8 @@ type TweetInfo = {
 };
 
 const Tweet = ({ tweet }: { tweet: TweetInfo }) => {
+    const [lightbox, setLightbox] = useState(false);
+
     return (
         <div className={styles.tweet}>
             <div className={styles.head}>
@@ -58,7 +62,11 @@ const Tweet = ({ tweet }: { tweet: TweetInfo }) => {
             </div>
             <div className={styles.body}>{tweet.body}</div>
             {tweet.attachment ? (
-                <img className={styles.attachment} src={tweet.attachment} />
+                <img
+                    onClick={() => setLightbox(true)}
+                    className={styles.attachment}
+                    src={tweet.attachment}
+                />
             ) : null}
             <div className={styles.foot}>
                 <span>
@@ -75,6 +83,15 @@ const Tweet = ({ tweet }: { tweet: TweetInfo }) => {
                 </span>
                 <span>{tweet.stats.date}</span>
             </div>
+
+            {lightbox && tweet.attachment ? (
+                <div
+                    onClick={() => setLightbox(false)}
+                    className={styles.lightbox}
+                >
+                    <img src={tweet.attachment} />
+                </div>
+            ) : null}
         </div>
     );
 };
