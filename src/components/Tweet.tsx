@@ -52,7 +52,7 @@ const Tweet = ({
                         {company.name}
                         <div ref={checkmarkPosition} />
                     </div>
-                    <div className={styles.handle}>@{company.handle}</div>
+                    <div className={styles.handle}>{company.handle}</div>
                 </div>
             </div>
             <div className={styles.body}>{tweet.body}</div>
