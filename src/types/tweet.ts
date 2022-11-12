@@ -12,4 +12,5 @@ export type TweetInfo = {
         retweets: number;
         date: string; // TODO: Make this a Date()
     };
+    hover: boolean;
 };

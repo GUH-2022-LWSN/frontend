@@ -26,11 +26,17 @@ const Like = () => (
     </svg>
 );
 
-const Tweet = ({ tweet }: { tweet: TweetInfo }) => {
+const Tweet = ({ tweet, tweetRef }: { tweet: TweetInfo, tweetRef: React.MutableRefObject<any> }) => {
     const [lightbox, setLightbox] = useState(false);
 
     return (
-        <div className={styles.tweet}>
+        <div
+            className={styles.tweet}
+            ref={tweetRef}
+            style={{
+                boxShadow: tweet.hover ? '5px 5px 50px -5px rgba(0,0,0,0.4)' : '5px 5px 10px -5px rgba(0,0,0,0.4)',
+            }}
+        >
             <div className={styles.head}>
                 <div
                     className={styles.pfp}

@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Checkmark.module.scss";
 
-function Checkmark() {
-    const imageRef = useRef<any>(null);
-    
-    const [imagePos, setImagePos] = useState<{ left: number; top: number }>({
-        left: 0,
-        top: 0,
-    });
+interface CheckmarkProps {
+    checkmarkRef: React.MutableRefObject<any>;
+    imagePos: { left: number; top: number; };
+    setImagePos(imagePos: {left: number; top: number;}): void;
+}
+
+function Checkmark(props: CheckmarkProps) {
+    const { checkmarkRef, imagePos, setImagePos } = props;
     
     useEffect(() => {
         let offsetX = 0;
@@ -21,7 +22,7 @@ function Checkmark() {
         };
         
         const onMouseDown = (e: MouseEvent) => {
-            if (imageRef.current && imageRef.current.contains(e.target)) {
+            if (checkmarkRef.current && checkmarkRef.current.contains(e.target)) {
                 document.addEventListener("mousemove", onMouseMove);
                 offsetX = e.offsetX;
                 offsetY = e.offsetY;
@@ -42,23 +43,6 @@ function Checkmark() {
         };
     }, []);
 
-    // useEffect(() => {
-    //     const onMouseMove = (e: MouseEvent) => {
-    //         setImagePos({
-    //             left: e.clientX,
-    //             top: e.clientY,
-    //         });
-    //     };
-
-    //     if (tracking) {
-    //         document.addEventListener("mousemove", onMouseMove);
-    //     }
-
-    //     return () => {
-    //         document.removeEventListener("mousemove", onMouseMove);
-    //     };
-    // }, [tracking]);
-
     return (
         <img
             alt="Twitter verified checkmark"
@@ -69,7 +53,7 @@ function Checkmark() {
                 top: imagePos.top,
             }}
             draggable={false}
-            ref={imageRef}
+            ref={checkmarkRef}
         />
     );
 }
