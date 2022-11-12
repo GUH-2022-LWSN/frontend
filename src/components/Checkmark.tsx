@@ -118,7 +118,8 @@ function Checkmark(props: CheckmarkProps) {
         const onMouseUp = (e: MouseEvent) => {
             document.removeEventListener("mousemove", onMouseMove);
             setDragging(false);
-            if (selectedRef.current !== 0) onDrop(selectedRef.current);
+            if (selectedRef.current !== 0 && !disabled)
+                onDrop(selectedRef.current);
             setSelected(0);
         };
 
@@ -170,6 +171,14 @@ function Checkmark(props: CheckmarkProps) {
 
     return (
         <>
+            <CheckmarkSVG
+                className={styles.placeholderCheckmark}
+                style={{
+                    left: `${sbLeft * 100}%`,
+                    top: `${sbTop * 100}%`,
+                }}
+                ref={checkmarkRef}
+            />
             <CheckmarkSVG
                 className={
                     styles.checkmark +
