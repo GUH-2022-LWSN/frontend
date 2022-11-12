@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TweetInfo } from "../types/tweet";
 
 import styles from "./Tweet.module.scss";
 
@@ -24,22 +25,6 @@ const Like = () => (
         </g>
     </svg>
 );
-
-type TweetInfo = {
-    user: {
-        pfp: string;
-        displayName: string;
-        handle: string;
-    };
-    body: string;
-    attachment: string | null;
-    stats: {
-        replies: number;
-        likes: number;
-        retweets: number;
-        date: string; // TODO: Make this a Date()
-    };
-};
 
 const Tweet = ({ tweet }: { tweet: TweetInfo }) => {
     const [lightbox, setLightbox] = useState(false);
