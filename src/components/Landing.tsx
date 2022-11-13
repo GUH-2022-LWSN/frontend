@@ -12,10 +12,17 @@ function Landing(props: LandingProps) {
     const { start, twitterHandle, setTwitterHandle } = props;
 
     const [emailVisible, setEmailVisible] = useState<boolean>(true);
+    const [emailHidden, setEmailHidden] = useState<boolean>(false);
 
     const sth = (value: string) => {
         setTwitterHandle(value.replaceAll("@", "").substring(0, 32));
     };
+
+    if (!emailVisible && !emailHidden) {
+        setTimeout(() => {
+            setEmailHidden(true);
+        }, 1000);
+    }
 
     return (
         <>
@@ -58,7 +65,11 @@ function Landing(props: LandingProps) {
                     Start Game
                 </button>
             </div>
-            <Email close={() => setEmailVisible(false)} visible={emailVisible} />
+            {
+                emailHidden
+                    ? null
+                    : <Email close={() => setEmailVisible(false)} visible={emailVisible} />
+            }
         </>
     );
 }
