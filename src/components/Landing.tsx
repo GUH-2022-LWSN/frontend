@@ -35,7 +35,7 @@ function Landing(props: LandingProps) {
                     className={styles.logo}
                     src="/photo-white-512.png"
                 />
-                <h1 className={styles.welcomeText}>Welcome to JustPhish*</h1>
+                <h1 className={styles.welcomeText}>Welcome to {process.env.REACT_APP_NAME}*</h1>
                 <sub>* Final name TBC!</sub>
                 <br />
                 <div className={styles.twitterHandleWrapper}>
