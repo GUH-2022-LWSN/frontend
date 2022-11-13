@@ -112,6 +112,26 @@ const Game = ({
             let canContinue = true;
 
             if (correct === selected) {
+                fetch(`${process.env.REACT_APP_SERVER_URL}/responses`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ response: [
+                        {
+                            company_id: company.company_id,
+                            tweet_id: tweet1.tweet_id,
+                            action: selected === 1 ? 'CORRECTLY_MARKED_REAL' : 'CORRECTLY_MARKED_FAKE',
+                            twitterHandle,
+                        },
+                        {
+                            company_id: company.company_id,
+                            tweet_id: tweet2.tweet_id,
+                            action: selected === 2 ? 'CORRECTLY_MARKED_REAL' : 'CORRECTLY_MARKED_FAKE',
+                            twitterHandle,
+                        }
+                    ]}),
+                });
                 setProgress((oldProg) => {
                     const challengesInLevel = Math.min(
                         10,
@@ -124,6 +144,26 @@ const Game = ({
                 });
                 setScore((oldScore) => oldScore + 8);
             } else {
+                fetch(`${process.env.REACT_APP_SERVER_URL}/responses`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ response: [
+                        {
+                            company_id: company.company_id,
+                            tweet_id: tweet1.tweet_id,
+                            action: selected === 1 ? 'INCORRECTLY_MARKED_REAL' : 'INCORRECTLY_MARKED_FAKE',
+                            twitterHandle,
+                        },
+                        {
+                            company_id: company.company_id,
+                            tweet_id: tweet2.tweet_id,
+                            action: selected === 2 ? 'INCORRECTLY_MARKED_REAL' : 'INCORRECTLY_MARKED_FAKE',
+                            twitterHandle,
+                        }
+                    ]}),
+                });
                 setLives((old) => {
                     if (old === 1) {
                         canContinue = false;
