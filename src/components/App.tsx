@@ -8,13 +8,21 @@ const App = () => {
     const [gameState, setGameState] = useState<"START" | "GAMEPLAY" | "END">(
         "START"
     );
+    const [twitterHandle, setTwitterHandle] = useState<string>('');
 
     return (
         <div className={styles.page}>
             {gameState === "START" ? (
-                <Landing start={() => setGameState("GAMEPLAY")} />
+                <Landing
+                    start={() => setGameState("GAMEPLAY")}
+                    twitterHandle={twitterHandle}
+                    setTwitterHandle={setTwitterHandle}
+                />
             ) : gameState === "GAMEPLAY" ? (
-                <Game end={() => setGameState("END")} />
+                <Game
+                    end={() => setGameState("END")}
+                    twitterHandle={twitterHandle}
+                />
             ) : (
                 <Leaderboard restart={() => setGameState("START")} />
             )}

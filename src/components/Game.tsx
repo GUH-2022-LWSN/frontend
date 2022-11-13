@@ -20,7 +20,7 @@ const sendAnswerToServer = (selected: 1 | 2): 1 | 2 => {
     return resp.answer ? selected : selected === 1 ? 2 : 1;
 };
 
-const Game = ({ end }: { end(): void }) => {
+const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) => {
     const networkState = useRef<number>(0);
 
     const [selectedTweet, setSelectedTweet] = useState<0 | 1 | 2>(0);

@@ -2,10 +2,12 @@ import styles from './Landing.module.scss';
 
 interface LandingProps {
     start(): void;
+    twitterHandle: string;
+    setTwitterHandle(twitterHandle: string): void;
 }
 
 function Landing(props: LandingProps) {
-    const { start } = props;
+    const { start, twitterHandle, setTwitterHandle } = props;
 
     return (
         <div className={styles.landingWrapper}>
@@ -17,9 +19,18 @@ function Landing(props: LandingProps) {
             <h1 className={styles.welcomeText}>Welcome to JustPhish*</h1>
             <sub>* Final name TBC!</sub>
             <br />
+            <div className={styles.twitterHandleWrapper}>
+                <span className={styles.twitterHandlePrefix}>@</span>
+                <input
+                    className={styles.twitterHandleInput}
+                    onChange={(e) => { setTwitterHandle(e.target.value) }}
+                    placeholder="Your Twitter Handle"
+                    value={twitterHandle}
+                />
+            </div>
             <button
                 className={styles.goButton}
-                onClick={start}
+                onClick={() => { if (twitterHandle !== '') start() }}
             >
                 Start Game
             </button>
