@@ -11,6 +11,7 @@ import Lives, { MAX_LIFE } from "./Lives";
 import { getQuestion, submitResponse } from "../api";
 
 import styles from "./Game.module.scss";
+import Warning from "./Warning";
 
 const Game = ({
     end,
@@ -31,6 +32,7 @@ const Game = ({
     const [oldTweet2, setOldTweet2] = useState<ITweet | null>(null);
     const [company, setCompany] = useState<ICompany | null>(null);
     const [oldCompany, setOldCompany] = useState<ICompany | null>(null);
+    const [warningVisible, setWarningVisible] = useState<boolean>(false);
 
     const spaceRef = useRef<HTMLDivElement | null>(null);
     const tweet1Ref = useRef<HTMLElement | null>(null);
@@ -142,6 +144,12 @@ const Game = ({
                         return old;
                     } else return Math.max(0, old - 1);
                 });
+                if (Math.random() <= 0.1) {
+                    setWarningVisible(true);
+                    setTimeout(() => {
+                        setWarningVisible(false);
+                    }, 3000);
+                }
             }
 
             if (canContinue)
@@ -256,6 +264,7 @@ const Game = ({
             ) : null}
             <div ref={spaceRef} style={{ flexGrow: 1 }} />
             <Progress level={Math.floor(progress)} progress={progress % 1} />
+            <Warning visible={warningVisible} />
         </>
     );
 };
