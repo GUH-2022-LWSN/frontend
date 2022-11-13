@@ -1,11 +1,29 @@
+import { useEffect, useState } from 'react';
 import styles from './Leaderboard.module.scss';
 
 interface LeaderboardProps {
     restart(): void;
 }
 
+interface LeaderboardEntry {
+    twitter_handle: string;
+    score: number;
+}
+
 function Leaderboard(props: LeaderboardProps) {
     const { restart } = props;
+
+    const [leaderboardEntries, setLeaderboardEntries] = useState<LeaderboardEntry[]>([]);
+
+    useEffect(() => {
+        fetch(process.env.REACT_APP_SERVER_URL + "/leaderboard").then(async (x) =>
+            setLeaderboardEntries((await x.json()).leaderboard)
+        );
+    }, []);
+
+    if (leaderboardEntries.length === 0) {
+        return null;
+    }
 
     return (
         <div className={styles.leaderboardWrapper}>
@@ -19,31 +37,15 @@ function Leaderboard(props: LeaderboardProps) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>1</strong></td>
-                            <td>@bsnk</td>
-                            <td>$160</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2</strong></td>
-                            <td>@samhir01</td>
-                            <td>$96</td>
-                        </tr>
-                        <tr>
-                            <td><strong>3</strong></td>
-                            <td>@Will_Newton</td>
-                            <td>$72</td>
-                        </tr>
-                        <tr>
-                            <td><strong>4</strong></td>
-                            <td>@area</td>
-                            <td>$48</td>
-                        </tr>
-                        <tr>
-                            <td><strong>5</strong></td>
-                            <td>@RossSmith09</td>
-                            <td>$8</td>
-                        </tr>
+                        {
+                            leaderboardEntries.map((x: LeaderboardEntry, i: number) => (
+                                <tr>
+                                    <td><strong>{i + 1}</strong></td>
+                                    <td>@{x.twitter_handle}</td>
+                                    <td>${x.score}</td>
+                                </tr>
+                            ))
+                        }
                     </tbody>
                 </table>
             </div>
