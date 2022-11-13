@@ -29,7 +29,7 @@ const formatDate = (d: Date): string => {
             : d.getHours();
     const suffix = d.getHours() > 11 ? "PM" : "AM";
 
-    return `${hours}:${d.getMinutes()} ${suffix} - ${
+    return `${hours}:${('0' + d.getMinutes().toString()).slice(-2)} ${suffix} - ${
         months[d.getMonth()]
     } ${d.getDate()}, ${d.getFullYear()}`;
 };
