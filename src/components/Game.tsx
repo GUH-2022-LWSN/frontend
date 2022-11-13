@@ -140,6 +140,7 @@ const Game = ({
                                         body: JSON.stringify({
                                             twitter_handle: twitterHandle,
                                             score,
+                                            level: Math.floor(progress),
                                         }),
                                     }
                                 ).then(() => {

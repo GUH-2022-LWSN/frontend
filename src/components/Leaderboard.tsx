@@ -8,6 +8,7 @@ interface LeaderboardProps {
 interface LeaderboardEntry {
     twitter_handle: string;
     score: number;
+    level: number;
 }
 
 function Leaderboard(props: LeaderboardProps) {
@@ -33,6 +34,7 @@ function Leaderboard(props: LeaderboardProps) {
                         <tr>
                             <th>Rank</th>
                             <th>Name</th>
+                            <th>Level</th>
                             <th>Money Spent on Twitter Blue</th>
                         </tr>
                     </thead>
@@ -42,6 +44,7 @@ function Leaderboard(props: LeaderboardProps) {
                                 <tr>
                                     <td><strong>{i + 1}</strong></td>
                                     <td>{x.twitter_handle ? `@${x.twitter_handle}` : "-"}</td>
+                                    <td>{x.level ? x.level : '-'}</td>
                                     <td>{x.score ? `$${x.score}` : "-"}</td>
                                 </tr>
                             ))
