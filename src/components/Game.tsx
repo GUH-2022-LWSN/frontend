@@ -190,17 +190,20 @@ const Game = ({
 
     return (
         <>
-            <Checkmark
-                setSelected={setSelectedTweet}
-                t1ClientRect={t1ClientRect}
-                t2ClientRect={t2ClientRect}
-                tweet1CMRef={tweet1CMRef}
-                tweet2CMRef={tweet2CMRef}
-                spaceRef={spaceRef}
-                onDrop={onDrop}
-                disabled={disabled || lives === -1}
-                correctAnswer={correctTweet}
-            />
+            {tweet1 && tweet2 && company ? (
+                <Checkmark
+                    tweet1ID={tweet1.tweet_id}
+                    setSelected={setSelectedTweet}
+                    t1ClientRect={t1ClientRect}
+                    t2ClientRect={t2ClientRect}
+                    tweet1CMRef={tweet1CMRef}
+                    tweet2CMRef={tweet2CMRef}
+                    spaceRef={spaceRef}
+                    onDrop={onDrop}
+                    disabled={disabled || lives === -1}
+                    correctAnswer={correctTweet}
+                />
+            ) : null}
 
             <Lives life={Math.max(0, lives)} />
             <Score score={score} />

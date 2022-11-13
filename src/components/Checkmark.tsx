@@ -8,6 +8,8 @@ interface CheckmarkProps {
     setSelected(selected: 0 | 1 | 2): void;
     onDrop(selected: 1 | 2): void;
 
+    tweet1ID: string;
+
     disabled: boolean;
     spaceRef: React.MutableRefObject<null | HTMLDivElement>;
     t1ClientRect: null | DOMRect;
@@ -26,18 +28,20 @@ const intersectionAmount = (r1: DOMRect, r2: DOMRect): number => {
 };
 
 let everDragged = false;
+let everDraggedAllTime = false;
 
 function Checkmark(props: CheckmarkProps) {
     const [showShake, setShowShake] = useState(false);
     useEffect(() => {
+        everDragged = false;
         const to = setTimeout(() => {
             if (!everDragged) setShowShake(true);
-        }, 3000);
+        }, everDraggedAllTime ? 6000 : 3000);
 
         return () => {
             clearTimeout(to);
         };
-    }, []);
+    }, [props.tweet1ID]);
 
     const {
         disabled,
@@ -89,6 +93,7 @@ function Checkmark(props: CheckmarkProps) {
 
             if (!everDragged) {
                 everDragged = true;
+                everDraggedAllTime = true;
                 setShowShake(false);
             }
             setPos({

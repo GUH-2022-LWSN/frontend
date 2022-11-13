@@ -37,6 +37,7 @@ function Landing(props: LandingProps) {
                             if (twitterHandle !== "") start();
                         }
                     }}
+                    autoFocus
                 />
             </div>
             <button
