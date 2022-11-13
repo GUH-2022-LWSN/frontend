@@ -40,7 +40,7 @@ const Score = ({ score }: { score: number }) => {
     return (
         <div className={styles.wrap}>
             <div className={styles.score}>
-                ${(-current).toFixed(2)}
+                ${current.toFixed(2)}
                 <CheckmarkWhite
                     className={
                         styles.popup +
