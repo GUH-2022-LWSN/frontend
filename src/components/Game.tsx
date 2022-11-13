@@ -127,7 +127,7 @@ const Game = ({
                         setTimeout(() => {
                             fetch(
                                 process.env.REACT_APP_SERVER_URL +
-                                    "/leaderboard/submitEntry",
+                                    "/leaderboard/submit_entry",
                                 {
                                     method: "POST",
                                     headers: {
