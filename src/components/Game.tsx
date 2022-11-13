@@ -127,23 +127,27 @@ const Game = ({
                 setLives((old) => {
                     if (old === 1) {
                         canContinue = false;
-                        setTimeout(() => {
-                            fetch(
-                                process.env.REACT_APP_SERVER_URL +
-                                    "/leaderboard/submit_entry",
-                                {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({
-                                        twitter_handle: twitterHandle,
-                                        score,
-                                    }),
-                                }
-                            );
-                            end();
-                        }, 1500);
+                        if (networkState.current === 2)
+                            setTimeout(() => {
+                                fetch(
+                                    process.env.REACT_APP_SERVER_URL +
+                                        "/leaderboard/submit_entry",
+                                    {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({
+                                            twitter_handle: twitterHandle,
+                                            score,
+                                        }),
+                                    }
+                                ).then(() => {
+                                    networkState.current = 0;
+                                });
+                                end();
+                            }, 1500);
+                        networkState.current = 1;
                         return old;
                     } else return Math.max(0, old - 1);
                 });
