@@ -45,7 +45,7 @@ function Landing(props: LandingProps) {
                         onChange={(e) => {
                             sth(e.target.value);
                         }}
-                        placeholder="Your Twitter Handle"
+                        placeholder="Choose a Handle"
                         value={twitterHandle}
                         onKeyDown={(e) => {
                             if (e.code === "Enter") {
