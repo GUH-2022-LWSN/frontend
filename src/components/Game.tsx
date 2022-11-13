@@ -108,18 +108,19 @@ const Game = ({
 
             if (correct === selected) {
                 setProgress((oldProg) => {
-                    return oldProg + (1 / 2 ** (Math.floor(oldProg) + 1));
+                    const challengesInLevel = Math.min(10, 2 * (Math.floor(oldProg) + 1));
+                    return oldProg + (1 / challengesInLevel);
                 });
                 setScore((oldScore) => oldScore + 8);
             } else {
                 setLives((old) => {
-                    if (old === 0) {
+                    if (old === 1) {
                         canContinue = false;
                         setTimeout(() => {
                             end();
                         }, 1500);
                         return old;
-                    } else return Math.max(-1, old - 1);
+                    } else return Math.max(0, old - 1);
                 });
             }
 
@@ -200,12 +201,12 @@ const Game = ({
                     tweet2CMRef={tweet2CMRef}
                     spaceRef={spaceRef}
                     onDrop={onDrop}
-                    disabled={disabled || lives === -1}
+                    disabled={disabled || lives === 0}
                     correctAnswer={correctTweet}
                 />
             ) : null}
 
-            <Lives life={Math.max(0, lives)} />
+            <Lives life={lives} />
             <Score score={score} />
             <div className={styles.handle}>@{twitterHandle}</div>
 
