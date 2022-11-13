@@ -117,6 +117,16 @@ const Game = ({
                     if (old === 1) {
                         canContinue = false;
                         setTimeout(() => {
+                            fetch(process.env.REACT_APP_SERVER_URL + "/leaderboard/submitEntry", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    twitter_handle: twitterHandle,
+                                    score,
+                                }),
+                            });
                             end();
                         }, 1500);
                         return old;
