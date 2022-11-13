@@ -13,6 +13,8 @@ const App = () => {
 
     return (
         <div className={styles.page}>
+            <div className={styles.banner}>TWITTER INTERNAL</div>
+
             {gameState === "START" ? (
                 <Landing
                     start={() => setGameState("GAMEPLAY")}
