@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install dependencies
+        run: npm ci --progress=false
+
+      - name: Run Build
+        run: npm run build
+        env:
+          CI: "false"
+
+      - name: Publish artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: build
