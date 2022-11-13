@@ -21,11 +21,13 @@ jobs:
           node-version: 14.x
 
       - name: Install dependencies
-        run: cp .env.justphish.tech .env && npm ci --progress=false
+        run: npm ci --progress=false
 
       - name: Run Build
         run: npm run build
         env:
+          REACT_APP_NAME: "JustPhish"
+          REACT_APP_SERVER_URL: "/api"
           CI: "false"
 
       - name: Publish artifacts
