@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+
 import Progress from "./Progress";
 import TwoTweets from "./TwoTweets";
-
 import Checkmark from "./Checkmark";
 import Score from "./Score";
 import { Tweet as ITweet } from "../types/tweet";
@@ -108,8 +108,12 @@ const Game = ({
 
             if (correct === selected) {
                 setProgress((oldProg) => {
-                    const challengesInLevel = Math.min(10, 2 * (Math.floor(oldProg) + 1));
-                    return oldProg + (1 / challengesInLevel);
+                    const challengesInLevel = Math.min(
+                        10,
+                        2 * (Math.floor(oldProg) + 1)
+                    );
+                    const newProg = oldProg + 1 / challengesInLevel;
+                    return newProg;
                 });
                 setScore((oldScore) => oldScore + 8);
             } else {

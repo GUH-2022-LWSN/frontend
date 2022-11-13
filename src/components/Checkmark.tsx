@@ -36,7 +36,7 @@ function Checkmark(props: CheckmarkProps) {
         everDragged = false;
         const to = setTimeout(() => {
             if (!everDragged) setShowShake(true);
-        }, everDraggedAllTime ? 6000 : 3000);
+        }, everDraggedAllTime ? 15_000 : 3_000);
 
         return () => {
             clearTimeout(to);

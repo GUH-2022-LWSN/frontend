@@ -2,7 +2,7 @@ import { Like, LikeFilled } from "./Icons";
 
 import styles from "./Lives.module.scss";
 
-export const MAX_LIFE = 5;
+export const MAX_LIFE = 4;
 const Lives = ({ life }: { life: number }) => {
     return (
         <div className={styles.wrap}>

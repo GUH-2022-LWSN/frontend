@@ -10,6 +10,7 @@
     flex-direction: column;
     background-color: $white;
     transition: box-shadow 200ms ease-out;
+    user-select: none;
 }
 
 .head {
