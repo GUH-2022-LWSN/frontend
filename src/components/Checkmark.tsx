@@ -34,9 +34,12 @@ function Checkmark(props: CheckmarkProps) {
     const [showShake, setShowShake] = useState(false);
     useEffect(() => {
         everDragged = false;
-        const to = setTimeout(() => {
-            if (!everDragged) setShowShake(true);
-        }, everDraggedAllTime ? 15_000 : 3_000);
+        const to = setTimeout(
+            () => {
+                if (!everDragged) setShowShake(true);
+            },
+            everDraggedAllTime ? 15_000 : 3_000
+        );
 
         return () => {
             clearTimeout(to);
@@ -194,7 +197,9 @@ function Checkmark(props: CheckmarkProps) {
                               ? " " + styles.incorrect
                               : "")
                         : dragging
-                        ? ""
+                        ? selectedRef.current
+                            ? " " + styles.slightShrink
+                            : ""
                         : " " + styles.goingHome)
                 }
                 style={{

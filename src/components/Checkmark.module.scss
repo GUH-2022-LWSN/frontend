@@ -28,6 +28,11 @@ $checkmarkTransition: filter 200ms ease, opacity 200ms ease, width 200ms ease,
         filter: drop-shadow(0 0 50px rgba(0, 0, 0, 0.4));
     }
 
+    &.slightShrink {
+        width: 175px;
+        height: 175px;
+    }
+
     &.byName {
         transition: $checkmarkTransition, width 500ms ease, height 500ms ease,
             left 500ms ease, top 500ms ease;
