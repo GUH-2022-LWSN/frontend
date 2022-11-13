@@ -21,27 +21,27 @@ function Leaderboard(props: LeaderboardProps) {
                     <tbody>
                         <tr>
                             <td><strong>1</strong></td>
-                            <td>Nathan Taylor</td>
+                            <td>@bsnk</td>
                             <td>$160</td>
                         </tr>
                         <tr>
                             <td><strong>2</strong></td>
-                            <td>Sam Hirst</td>
+                            <td>@samhir01</td>
                             <td>$96</td>
                         </tr>
                         <tr>
                             <td><strong>3</strong></td>
-                            <td>Will Newton</td>
+                            <td>@Will_Newton</td>
                             <td>$72</td>
                         </tr>
                         <tr>
                             <td><strong>4</strong></td>
-                            <td>Liam Patterson</td>
+                            <td>@area</td>
                             <td>$48</td>
                         </tr>
                         <tr>
                             <td><strong>5</strong></td>
-                            <td>Ross Smith</td>
+                            <td>@RossSmith09</td>
                             <td>$8</td>
                         </tr>
                     </tbody>
