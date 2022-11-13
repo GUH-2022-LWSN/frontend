@@ -5,7 +5,6 @@ import { Like, Reply, Retweet } from "./Icons";
 
 import styles from "./Tweet.module.scss";
 
-
 const formatDate = (d: Date): string => {
     const months = [
         "Jan",
@@ -38,8 +37,8 @@ const formatDate = (d: Date): string => {
 const formatNumber = (n: number): string => {
     if (n < 100) return n.toString();
     if (n < 10_000) return n.toLocaleString();
-    return `${(n/1000).toFixed(0)}K`
-}
+    return `${(n / 1000).toFixed(0)}K`;
+};
 
 const Tweet = ({
     hover,
@@ -55,6 +54,10 @@ const Tweet = ({
     tweet: ITweet;
 }) => {
     const [lightbox, setLightbox] = useState(false);
+
+    const longTweet = tweet.attachment
+        ? tweet.body.length > 100
+        : tweet.body.length > 250;
 
     return (
         <div
@@ -81,12 +84,14 @@ const Tweet = ({
                     <div className={styles.handle}>{company.handle}</div>
                 </div>
             </div>
-            <div className={styles.body}>{tweet.body}</div>
+            <div className={styles.body + (longTweet ? " " + styles.long : "")}>
+                {tweet.body}
+            </div>
             {tweet.attachment ? (
                 <img
                     alt=""
                     onClick={() => setLightbox(true)}
-                    className={styles.attachment}
+                    className={styles.attachment + (longTweet ? " " + styles.long : "")}
                     src={tweet.attachment}
                 />
             ) : null}

@@ -45,6 +45,10 @@
 .body {
     font-size: 1.5em;
     white-space: pre-line;
+
+    &.long {
+        font-size: 1.1em;
+    }
 }
 
 .attachment {
@@ -54,6 +58,10 @@
     margin: 12px auto 0;
 
     @media only screen and (max-width: 640px) {
+        max-height: 128px;
+    }
+
+    &.long {
         max-height: 128px;
     }
 
