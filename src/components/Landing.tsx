@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Email from "./Email";
 import styles from "./Landing.module.scss";
 
@@ -9,6 +9,7 @@ interface LandingProps {
 }
 
 let emailHiddenEver = false;
+let imageFlip = Math.random() < 0.1;
 
 function Landing(props: LandingProps) {
     const { start, twitterHandle, setTwitterHandle } = props;
@@ -34,6 +35,9 @@ function Landing(props: LandingProps) {
                     alt="JustPhish Logo"
                     className={styles.logo}
                     src="/photo-white-512.png"
+                    style={{
+                        transform: imageFlip ? 'scaleX(-1)' : 'none',
+                    }}
                 />
                 <h1 className={styles.welcomeText}>Welcome to {process.env.REACT_APP_NAME}*</h1>
                 <sub>* Final name TBC!</sub>
