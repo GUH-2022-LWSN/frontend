@@ -1,11 +1,12 @@
 import { useState } from "react";
 import styles from "./App.module.scss";
 import Game from "./Game";
+import GameOver from "./GameOver";
 import Landing from "./Landing";
 import Leaderboard from "./Leaderboard";
 
 const App = () => {
-    const [gameState, setGameState] = useState<"START" | "GAMEPLAY" | "END">(
+    const [gameState, setGameState] = useState<"START" | "GAMEPLAY" | "GAMEOVER" | "END">(
         "START"
     );
     const [twitterHandle, setTwitterHandle] = useState<string>('');
@@ -20,9 +21,11 @@ const App = () => {
                 />
             ) : gameState === "GAMEPLAY" ? (
                 <Game
-                    end={() => setGameState("END")}
+                    end={() => setGameState("GAMEOVER")}
                     twitterHandle={twitterHandle}
                 />
+            ) : gameState === "GAMEOVER" ? (
+                <GameOver proceed={() => setGameState("END")} />
             ) : (
                 <Leaderboard restart={() => setGameState("START")} />
             )}
