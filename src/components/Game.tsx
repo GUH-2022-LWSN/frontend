@@ -81,8 +81,7 @@ const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) =
         if (!tweet1 && !networkState.current) getTweetsFromServer();
     }, [tweet1]);
 
-    const [level, setLevel] = useState(1);
-    const [progress, setProgress] = useState(0);
+    const [progress, setProgress] = useState(1);
     const [score, setScore] = useState(0);
     const [lives, setLives] = useState(MAX_LIFE);
     const onDrop = useCallback(
@@ -101,15 +100,7 @@ const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) =
 
             if (correct === selected) {
                 setProgress((oldProg) => {
-                    let newProg = 0;
-                    setLevel((oldLevel) => {
-                        newProg = oldProg + 1 / 2 ** (oldLevel + 1);
-                        // Float rounding...
-                        if (newProg < 0.99999) return oldLevel;
-                        return oldLevel + 1;
-                    });
-                    if (newProg < 0.99999) return newProg;
-                    return 0;
+                    return oldProg + (1 / 2 ** (Math.floor(oldProg) + 1));
                 });
                 setScore((oldScore) => oldScore + 8);
             } else {
@@ -230,7 +221,7 @@ const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) =
                 />
             ) : null}
             <div ref={spaceRef} style={{ flexGrow: 1 }} />
-            <Progress level={level} progress={progress} />
+            <Progress level={Math.floor(progress)} progress={progress % 1} />
         </>
     );
 };
