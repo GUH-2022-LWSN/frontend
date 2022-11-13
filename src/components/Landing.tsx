@@ -1,4 +1,4 @@
-import styles from './Landing.module.scss';
+import styles from "./Landing.module.scss";
 
 interface LandingProps {
     start(): void;
@@ -8,6 +8,10 @@ interface LandingProps {
 
 function Landing(props: LandingProps) {
     const { start, twitterHandle, setTwitterHandle } = props;
+
+    const sth = (value: string) => {
+        setTwitterHandle(value.replaceAll("@", "").substring(0, 32));
+    };
 
     return (
         <div className={styles.landingWrapper}>
@@ -23,14 +27,24 @@ function Landing(props: LandingProps) {
                 <span className={styles.twitterHandlePrefix}>@</span>
                 <input
                     className={styles.twitterHandleInput}
-                    onChange={(e) => { setTwitterHandle(e.target.value) }}
+                    onChange={(e) => {
+                        sth(e.target.value);
+                    }}
                     placeholder="Your Twitter Handle"
                     value={twitterHandle}
+                    onKeyDown={(e) => {
+                        if (e.code === "Enter") {
+                            if (twitterHandle !== "") start();
+                        }
+                    }}
                 />
             </div>
             <button
                 className={styles.goButton}
-                onClick={() => { if (twitterHandle !== '') start() }}
+                disabled={!twitterHandle}
+                onClick={() => {
+                    if (twitterHandle !== "") start();
+                }}
             >
                 Start Game
             </button>
