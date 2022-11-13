@@ -168,7 +168,7 @@ const Game = ({
                 date: new Date(resp.tweets[0].date),
                 interactions: {
                     likes: resp.tweets[0].likes,
-                    replies: 0,
+                    replies: resp.tweets[0].replies,
                     quote_tweets: resp.tweets[0].quote_tweets,
                     retweets: resp.tweets[0].retweets,
                 },
@@ -185,7 +185,7 @@ const Game = ({
                 date: new Date(resp.tweets[1].date),
                 interactions: {
                     likes: resp.tweets[1].likes,
-                    replies: 0,
+                    replies: resp.tweets[1].replies,
                     quote_tweets: resp.tweets[1].quote_tweets,
                     retweets: resp.tweets[1].retweets,
                 },

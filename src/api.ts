@@ -29,6 +29,7 @@ export const getQuestion = (): Promise<{
         vibe: string;
         retweets: number;
         quote_tweets: number;
+        replies: number;
         likes: number;
         date: string;
         attachment: string;
