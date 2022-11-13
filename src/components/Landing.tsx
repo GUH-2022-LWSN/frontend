@@ -46,6 +46,9 @@ function Landing(props: LandingProps) {
                 onClick={() => {
                     if (twitterHandle !== "") start();
                 }}
+                style={{
+                    cursor: twitterHandle ? 'pointer' : 'default',
+                }}
             >
                 Start Game
             </button>
