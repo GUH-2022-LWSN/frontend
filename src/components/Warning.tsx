@@ -1,4 +1,4 @@
-import styles from './Warning.module.scss';
+import styles from "./Warning.module.scss";
 
 interface WarningProps {
     visible: boolean;
@@ -14,7 +14,7 @@ function Warning(props: WarningProps) {
                 bottom: visible ? 0 : -332,
             }}
         >
-            <img src="/warning.png" />
+            <img alt="" src="/warning.png" />
         </div>
     );
 }

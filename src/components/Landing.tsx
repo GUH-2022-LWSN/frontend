@@ -8,10 +8,12 @@ interface LandingProps {
     setTwitterHandle(twitterHandle: string): void;
 }
 
+let emailHiddenEver = false;
+
 function Landing(props: LandingProps) {
     const { start, twitterHandle, setTwitterHandle } = props;
 
-    const [emailVisible, setEmailVisible] = useState<boolean>(true);
+    const [emailVisible, setEmailVisible] = useState<boolean>(!emailHiddenEver);
     const [emailHidden, setEmailHidden] = useState<boolean>(false);
 
     const sth = (value: string) => {
@@ -20,6 +22,7 @@ function Landing(props: LandingProps) {
 
     if (!emailVisible && !emailHidden) {
         setTimeout(() => {
+            emailHiddenEver = true;
             setEmailHidden(true);
         }, 1000);
     }
@@ -59,17 +62,18 @@ function Landing(props: LandingProps) {
                         if (twitterHandle !== "") start();
                     }}
                     style={{
-                        cursor: twitterHandle ? 'pointer' : 'default',
+                        cursor: twitterHandle ? "pointer" : "default",
                     }}
                 >
                     Start Game
                 </button>
             </div>
-            {
-                emailHidden
-                    ? null
-                    : <Email close={() => setEmailVisible(false)} visible={emailVisible} />
-            }
+            {emailHidden || emailHiddenEver ? null : (
+                <Email
+                    close={() => setEmailVisible(false)}
+                    visible={emailVisible}
+                />
+            )}
         </>
     );
 }
