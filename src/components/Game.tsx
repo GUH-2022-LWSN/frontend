@@ -10,7 +10,15 @@ import OldTweets from "./OldTweets";
 import Lives, { MAX_LIFE } from "./Lives";
 import { getQuestion, submitResponse } from "../api";
 
-const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) => {
+import styles from "./Game.module.scss";
+
+const Game = ({
+    end,
+    twitterHandle,
+}: {
+    end(): void;
+    twitterHandle: string;
+}) => {
     const networkState = useRef<number>(0);
 
     const [selectedTweet, setSelectedTweet] = useState<0 | 1 | 2>(0);
@@ -205,6 +213,8 @@ const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) =
 
             <Lives life={Math.max(0, lives)} />
             <Score score={score} />
+            <div className={styles.handle}>@{twitterHandle}</div>
+
             {tweet1 && tweet2 && company ? (
                 <TwoTweets
                     company={company}

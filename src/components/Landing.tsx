@@ -9,6 +9,10 @@ interface LandingProps {
 function Landing(props: LandingProps) {
     const { start, twitterHandle, setTwitterHandle } = props;
 
+    const sth = (value: string) => {
+        setTwitterHandle(value.replaceAll("@", "").substring(0, 32));
+    };
+
     return (
         <div className={styles.landingWrapper}>
             <img
@@ -24,7 +28,7 @@ function Landing(props: LandingProps) {
                 <input
                     className={styles.twitterHandleInput}
                     onChange={(e) => {
-                        setTwitterHandle(e.target.value);
+                        sth(e.target.value);
                     }}
                     placeholder="Your Twitter Handle"
                     value={twitterHandle}
