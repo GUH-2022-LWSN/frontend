@@ -41,8 +41,8 @@ function Leaderboard(props: LeaderboardProps) {
                             leaderboardEntries.map((x: LeaderboardEntry, i: number) => (
                                 <tr>
                                     <td><strong>{i + 1}</strong></td>
-                                    <td>@{x.twitter_handle}</td>
-                                    <td>${x.score}</td>
+                                    <td>{x.twitter_handle ? `@${x.twitter_handle}` : "-"}</td>
+                                    <td>{x.score ? `$${x.score}` : "-"}</td>
                                 </tr>
                             ))
                         }
