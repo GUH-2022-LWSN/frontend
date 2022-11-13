@@ -8,17 +8,7 @@ import { Tweet as ITweet } from "../types/tweet";
 import { Company as ICompany } from "../types/company";
 import OldTweets from "./OldTweets";
 import Lives, { MAX_LIFE } from "./Lives";
-
-let last = true;
-const sendAnswerToServer = (selected: 1 | 2): 1 | 2 => {
-    // TODO: Go to server to get resp
-    const resp = {
-        answer: last, //Math.random() < 0.5 ? true : false,
-    };
-    last = !last;
-
-    return resp.answer ? selected : selected === 1 ? 2 : 1;
-};
+import { getQuestion, submitResponse } from "../api";
 
 const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) => {
     const networkState = useRef<number>(0);
@@ -96,8 +86,15 @@ const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) =
     const [score, setScore] = useState(0);
     const [lives, setLives] = useState(MAX_LIFE);
     const onDrop = useCallback(
-        (selected: 1 | 2) => {
-            const correct = sendAnswerToServer(selected);
+        async (selected: 1 | 2) => {
+            if (!company || !tweet1 || !tweet2) return;
+
+            const correct: 1 | 2 = (await submitResponse(
+                company.company_id,
+                selected === 1 ? tweet1.tweet_id : tweet2.tweet_id
+            ))
+                ? selected
+                : ((3 - selected) as 1 | 2);
             setCorrectTweet(correct);
             setDisabled(true);
             let canContinue = true;
@@ -134,80 +131,13 @@ const Game = ({ end, twitterHandle }: { end(): void; twitterHandle: string; }) =
                     getTweetsFromServer();
                 }, 1500);
         },
-        [end]
+        [company, tweet1, tweet2, end]
     );
 
-    const getTweetsFromServer = () => {
+    const getTweetsFromServer = async () => {
         networkState.current = 1;
 
-        // TODO: Go to server to get resp
-        let resp: any;
-        if (last)
-            resp = {
-                company_id: "c901ae6a-1d48-4a",
-                name: "Elon Musk",
-                handle: "@elonmusk",
-                picture:
-                    "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_400x400.jpg",
-                followers: 15300000,
-                following: 130,
-                joined_date: "2009-06-01",
-                tweets: [
-                    {
-                        id_num: "55eb91dd-119e-4b",
-                        body: "🤡",
-                        vibe: "Soon",
-                        retweets: 18100,
-                        quote_tweets: 4327,
-                        likes: 193600,
-                        date: "2022-11-12T05:12:00",
-                        attachment: "",
-                    },
-                    {
-                        id_num: "d9a55b10-6fcb-4f",
-                        body: "🪦🤖",
-                        vibe: "Soon",
-                        retweets: 18100,
-                        quote_tweets: 4157,
-                        likes: 223800,
-                        date: "2022-11-12T07:36:00",
-                        attachment: "",
-                    },
-                ],
-            };
-        else
-            resp = {
-                company_id: "c901ae6a-1d48-4a",
-                name: "Elon Musk",
-                handle: "@elonmusk",
-                picture:
-                    "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_400x400.jpg",
-                followers: 15300000,
-                following: 130,
-                joined_date: "2009-06-01",
-                tweets: [
-                    {
-                        id_num: "d9a55b10-6fcb-4f",
-                        body: "🪦🤖",
-                        vibe: "Soon",
-                        retweets: 18100,
-                        quote_tweets: 4157,
-                        likes: 223800,
-                        date: "2022-11-12T07:36:00",
-                        attachment: "",
-                    },
-                    {
-                        id_num: "55eb91dd-119e-4b",
-                        body: "🤡",
-                        vibe: "Soon",
-                        retweets: 18100,
-                        quote_tweets: 4327,
-                        likes: 193600,
-                        date: "2022-11-12T05:12:00",
-                        attachment: "",
-                    },
-                ],
-            };
+        const resp = await getQuestion();
 
         setCompany((oldC) => {
             setOldCompany(oldC);
