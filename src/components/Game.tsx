@@ -112,36 +112,35 @@ const Game = ({
                         10,
                         2 * (Math.floor(oldProg) + 1)
                     );
-                    const newProg = Math.round((oldProg + 1 / challengesInLevel) * 1000) / 1000;
+                    const newProg =
+                        Math.round((oldProg + 1 / challengesInLevel) * 1000) /
+                        1000;
                     return newProg;
                 });
                 setScore((oldScore) => oldScore + 8);
             } else {
-                setScore((oldScore) => {
-                    setLives((old) => {
-                        if (old === 1) {
-                            canContinue = false;
-                            setTimeout(() => {
-                                fetch(
-                                    process.env.REACT_APP_SERVER_URL +
-                                        "/leaderboard/submitEntry",
-                                    {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                        },
-                                        body: JSON.stringify({
-                                            twitter_handle: twitterHandle,
-                                            oldScore,
-                                        }),
-                                    }
-                                );
-                                end();
-                            }, 1500);
-                            return old;
-                        } else return Math.max(0, old - 1);
-                    });
-                    return oldScore;
+                setLives((old) => {
+                    if (old === 1) {
+                        canContinue = false;
+                        setTimeout(() => {
+                            fetch(
+                                process.env.REACT_APP_SERVER_URL +
+                                    "/leaderboard/submitEntry",
+                                {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        twitter_handle: twitterHandle,
+                                        score,
+                                    }),
+                                }
+                            );
+                            end();
+                        }, 1500);
+                        return old;
+                    } else return Math.max(0, old - 1);
                 });
             }
 
@@ -152,7 +151,7 @@ const Game = ({
                     getTweetsFromServer();
                 }, 1500);
         },
-        [company, tweet1, tweet2, end, twitterHandle]
+        [company, tweet1, tweet2, end, twitterHandle, score]
     );
 
     const getTweetsFromServer = async () => {
