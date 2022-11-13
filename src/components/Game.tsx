@@ -219,7 +219,7 @@ const Game = ({
 
         T_HISTORY.push(resp.tweets[0].id_num);
         T_HISTORY.push(resp.tweets[1].id_num);
-        while (T_HISTORY.length > HISTORY_SIZE) T_HISTORY.unshift();
+        while (T_HISTORY.length > HISTORY_SIZE) T_HISTORY.shift();
 
         networkState.current = 2;
     };
