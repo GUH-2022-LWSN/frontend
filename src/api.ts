@@ -16,7 +16,9 @@ export const submitResponse = (
         .then((x) => x.answer);
 };
 
-export const getQuestion = (): Promise<{
+export const getQuestion = (
+    history: string[]
+): Promise<{
     name: string;
     handle: string;
     picture: string;
@@ -36,7 +38,9 @@ export const getQuestion = (): Promise<{
         id_num: string;
     }[];
 }> => {
-    return fetch(process.env.REACT_APP_SERVER_URL + "/getQuestion").then((x) =>
-        x.json()
-    );
+    return fetch(process.env.REACT_APP_SERVER_URL + "/getQuestion", {
+        headers: {
+            "X-History": history.join(","),
+        },
+    }).then((x) => x.json());
 };

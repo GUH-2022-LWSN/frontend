@@ -13,6 +13,9 @@ import { getQuestion, submitResponse } from "../api";
 import styles from "./Game.module.scss";
 import Warning from "./Warning";
 
+const T_HISTORY: string[] = [];
+const HISTORY_SIZE = 30;
+
 const Game = ({
     end,
     twitterHandle,
@@ -165,7 +168,7 @@ const Game = ({
     const getTweetsFromServer = async () => {
         networkState.current = 1;
 
-        const resp = await getQuestion();
+        const resp = await getQuestion(T_HISTORY);
 
         setCompany((oldC) => {
             setOldCompany(oldC);
@@ -213,6 +216,10 @@ const Game = ({
                 vibe: resp.tweets[1].vibe,
             };
         });
+
+        T_HISTORY.push(resp.tweets[0].id_num);
+        T_HISTORY.push(resp.tweets[1].id_num);
+        while (T_HISTORY.length > HISTORY_SIZE) T_HISTORY.unshift();
 
         networkState.current = 2;
     };
