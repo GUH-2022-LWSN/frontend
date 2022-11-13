@@ -1,4 +1,4 @@
-import styles from './Landing.module.scss';
+import styles from "./Landing.module.scss";
 
 interface LandingProps {
     start(): void;
@@ -23,14 +23,24 @@ function Landing(props: LandingProps) {
                 <span className={styles.twitterHandlePrefix}>@</span>
                 <input
                     className={styles.twitterHandleInput}
-                    onChange={(e) => { setTwitterHandle(e.target.value) }}
+                    onChange={(e) => {
+                        setTwitterHandle(e.target.value);
+                    }}
                     placeholder="Your Twitter Handle"
                     value={twitterHandle}
+                    onKeyDown={(e) => {
+                        if (e.code === "Enter") {
+                            if (twitterHandle !== "") start();
+                        }
+                    }}
                 />
             </div>
             <button
                 className={styles.goButton}
-                onClick={() => { if (twitterHandle !== '') start() }}
+                disabled={!twitterHandle}
+                onClick={() => {
+                    if (twitterHandle !== "") start();
+                }}
             >
                 Start Game
             </button>
